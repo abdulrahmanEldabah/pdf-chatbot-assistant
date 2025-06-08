@@ -1,0 +1,6 @@
+@PdfChatbotBackend_HostAddress = http://localhost:5261
+
+GET {{PdfChatbotBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

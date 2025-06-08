@@ -1,0 +1,49 @@
+<div class="upload-container">
+  <div class="upload-area" 
+       [class.has-file]="selectedFile"
+       [class.is-uploading]="isUploading">
+    
+    <div *ngIf="!selectedFile" class="upload-prompt">
+      <i class="upload-icon">📄</i>
+      <p>Drag and drop your PDF file here or</p>
+      <label for="file-input" class="upload-button">Choose File</label>
+      <input type="file" 
+             id="file-input" 
+             accept=".pdf"
+             (change)="onFileSelected($event)"
+             class="file-input">
+    </div>
+
+    <div *ngIf="selectedFile" class="file-preview">
+      <div class="file-info">
+        <i class="file-icon">📄</i>
+        <span class="file-name">{{ selectedFile.name }}</span>
+        <span class="file-size">({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB)</span>
+      </div>
+
+      <div *ngIf="isUploading" class="upload-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+        </div>
+        <span class="progress-text">{{ uploadProgress }}%</span>
+      </div>
+
+      <div class="file-actions">
+        <button class="action-button upload" 
+                (click)="uploadFile()"
+                [disabled]="isUploading">
+          {{ isUploading ? 'Uploading...' : 'Upload' }}
+        </button>
+        <button class="action-button clear" 
+                (click)="clearSelection()"
+                [disabled]="isUploading">
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="uploadError" class="error-message">
+      {{ uploadError }}
+    </div>
+  </div>
+</div> 

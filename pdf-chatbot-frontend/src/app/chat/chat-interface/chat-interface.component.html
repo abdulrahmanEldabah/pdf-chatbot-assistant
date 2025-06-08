@@ -1,0 +1,39 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>PDF Chat Assistant</h2>
+    <div class="file-status" *ngIf="uploadedFileName">
+      <i class="fas fa-file-pdf"></i>
+      <span>Currently loaded: {{ uploadedFileName }}</span>
+    </div>
+  </div>
+
+  <div class="messages-container" #messagesContainer>
+    <div *ngIf="!hasPdfUploaded" class="no-pdf-message">
+      <i class="fas fa-file-upload"></i>
+      <p>Please upload a PDF file to start chatting</p>
+    </div>
+    
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [ngClass]="{'user-message': message.isUser, 'assistant-message': !message.isUser}">
+      <div class="message-content">
+        <div class="message-text">{{ message.content }}</div>
+        <div class="message-timestamp">
+          {{ message.timestamp | date:'shortTime' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input type="text" 
+           [(ngModel)]="userMessage" 
+           (keyup.enter)="sendMessage()"
+           placeholder="Ask a question about your PDF..."
+           [disabled]="!hasPdfUploaded || isLoading">
+    <button (click)="sendMessage()" 
+            [disabled]="!hasPdfUploaded || isLoading || !userMessage.trim()">
+      <i class="fas" [ngClass]="isLoading ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+    </button>
+  </div>
+</div> 
